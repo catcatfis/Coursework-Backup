@@ -1,0 +1,23 @@
+# Compiled executables
+*.exe
+*.o
+*.obj
+
+# Build directories
+build/
+out/
+Debug/
+Release/
+
+# IDE files
+.vscode/
+.trae/
+*.suo
+*.user
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Node modules
+node_modules/
