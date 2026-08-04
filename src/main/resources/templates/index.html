@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('首页 - 采油厂油水井作业成本管理系统')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card text-center">
+                <div class="card-body py-5">
+                    <h1 class="card-title display-5 mb-4">采油厂油水井作业成本管理系统</h1>
+                    <p class="card-text lead text-muted mb-5">基于 Spring Boot + Thymeleaf + MySQL 的 B/S 架构管理系统</p>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-primary">
+                                <div class="card-body">
+                                    <h4 class="card-title text-primary">数据管理</h4>
+                                    <p class="card-text">对单位代码表、油水井表、施工单位表、物码表、作业表、材料消耗表进行增删改操作</p>
+                                    <a href="/manage" class="btn btn-primary">进入管理</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 border-success">
+                                <div class="card-body">
+                                    <h4 class="card-title text-success">数据查询</h4>
+                                    <p class="card-text">按单位、日期范围、施工单位、材料等多维度查询作业成本数据</p>
+                                    <a href="/query" class="btn btn-success">进入查询</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

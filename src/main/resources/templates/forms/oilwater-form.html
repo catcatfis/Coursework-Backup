@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('油水井管理')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 th:text="${action == 'add' ? '新增油水井' : '修改油水井'}"></h5>
+                </div>
+                <div class="card-body">
+                    <form action="/manage/oilwater/save" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">井号</label>
+                            <input type="text" name="owid" class="form-control" th:value="${oilWater.owid}"
+                                   th:readonly="${action == 'edit'}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">井类型</label>
+                            <select name="owname" class="form-select" required>
+                                <option value="油井" th:selected="${oilWater.owname == '油井'}">油井</option>
+                                <option value="水井" th:selected="${oilWater.owname == '水井'}">水井</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">所属单位</label>
+                            <select name="dpid" class="form-select" required>
+                                <option th:each="d : ${departments}" th:value="${d.dpid}" th:text="${d.dname}"
+                                        th:selected="${d.dpid == oilWater.dpid}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                        <a href="/manage" class="btn btn-secondary">返回</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

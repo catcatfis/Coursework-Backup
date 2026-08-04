@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('单位代码管理')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 th:text="${action == 'add' ? '新增单位' : '修改单位'}"></h5>
+                </div>
+                <div class="card-body">
+                    <form action="/manage/department/save" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">单位代码</label>
+                            <input type="text" name="dpid" class="form-control" th:value="${department.dpid}"
+                                   th:readonly="${action == 'edit'}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">单位名称</label>
+                            <input type="text" name="dname" class="form-control" th:value="${department.dname}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                        <a href="/manage" class="btn btn-secondary">返回</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

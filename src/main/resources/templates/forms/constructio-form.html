@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('施工单位管理')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5>新增施工单位</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/manage/constructio/save" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">施工单位名称</label>
+                            <input type="text" name="cname" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                        <a href="/manage" class="btn btn-secondary">返回</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

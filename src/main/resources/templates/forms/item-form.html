@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('物码管理')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 th:text="${action == 'add' ? '新增物料' : '修改物料'}"></h5>
+                </div>
+                <div class="card-body">
+                    <form action="/manage/item/save" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">物料代码</label>
+                            <input type="text" name="itemid" class="form-control" th:value="${item.itemid}"
+                                   th:readonly="${action == 'edit'}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">物料名称</label>
+                            <input type="text" name="itemname" class="form-control" th:value="${item.itemname}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">单位</label>
+                            <input type="text" name="unit" class="form-control" th:value="${item.unit}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">单价</label>
+                            <input type="number" name="uprice" class="form-control" th:value="${item.uprice}" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                        <a href="/manage" class="btn btn-secondary">返回</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

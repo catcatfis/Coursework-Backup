@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('数据查询 - 采油厂油水井作业成本管理系统')}"></head>
+<body>
+<nav th:replace="~{fragments :: navbar}"></nav>
+<div class="container-fluid px-4">
+
+    <div class="row">
+        <!-- 左侧查询面板 -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bg-success text-white"><h5 class="mb-0">查询功能</h5></div>
+                <div class="card-body">
+                    <!-- Q1: 预算项目查询 -->
+                    <h6 class="text-primary">Q1: 预算项目查询</h6>
+                    <form action="/query/budget" method="get" class="mb-3">
+                        <select name="dname" class="form-select form-select-sm mb-1" required>
+                            <option value="">选择单位</option>
+                            <option th:each="n : ${deptNames}" th:value="${n}" th:text="${n}"></option>
+                        </select>
+                        <input type="date" name="startDate" class="form-control form-control-sm mb-1" required>
+                        <input type="date" name="endDate" class="form-control form-control-sm mb-1" required>
+                        <button class="btn btn-primary btn-sm w-100">查询</button>
+                    </form>
+
+                    <!-- Q2: 结算明细查询 -->
+                    <h6 class="text-primary">Q2: 结算材料消耗明细</h6>
+                    <form action="/query/settlement-detail" method="get" class="mb-3">
+                        <select name="dname" class="form-select form-select-sm mb-1" required>
+                            <option value="">选择单位</option>
+                            <option th:each="n : ${deptNames}" th:value="${n}" th:text="${n}"></option>
+                        </select>
+                        <input type="date" name="startDate" class="form-control form-control-sm mb-1" required>
+                        <input type="date" name="endDate" class="form-control form-control-sm mb-1" required>
+                        <button class="btn btn-primary btn-sm w-100">查询</button>
+                    </form>
+
+                    <!-- Q3: 金额汇总 -->
+                    <h6 class="text-primary">Q3: 金额汇总查询</h6>
+                    <form action="/query/amount-summary" method="get" class="mb-3">
+                        <select name="dname" class="form-select form-select-sm mb-1" required>
+                            <option value="">选择单位</option>
+                            <option th:each="n : ${deptNames}" th:value="${n}" th:text="${n}"></option>
+                        </select>
+                        <input type="date" name="startDate" class="form-control form-control-sm mb-1" required>
+                        <input type="date" name="endDate" class="form-control form-control-sm mb-1" required>
+                        <button class="btn btn-primary btn-sm w-100">查询</button>
+                    </form>
+
+                    <!-- Q4: 已结算未入账 -->
+                    <h6 class="text-primary">Q4: 已结算未入账项目</h6>
+                    <form action="/query/settled-not-credited" method="get" class="mb-3">
+                        <input type="date" name="startDate" class="form-control form-control-sm mb-1" required>
+                        <input type="date" name="endDate" class="form-control form-control-sm mb-1" required>
+                        <button class="btn btn-primary btn-sm w-100">查询</button>
+                    </form>
+
+                    <!-- Q5: 施工单位统计 -->
+                    <h6 class="text-primary">Q5: 施工单位项目统计</h6>
+                    <a href="/query/construction-stats" class="btn btn-success btn-sm w-100 mb-3">查看统计</a>
+
+                    <!-- Q6: 材料超支查询 -->
+                    <h6 class="text-primary">Q6: 材料消耗超支查询</h6>
+                    <form action="/query/material-over" method="get" class="mb-3">
+                        <select name="itemname" class="form-select form-select-sm mb-1" required>
+                            <option value="">选择材料</option>
+                            <option th:each="n : ${itemNames}" th:value="${n}" th:text="${n}"></option>
+                        </select>
+                        <input type="number" name="amount" class="form-control form-control-sm mb-1" placeholder="金额阈值" required>
+                        <button class="btn btn-primary btn-sm w-100">查询</button>
+                    </form>
+
+                    <hr>
+                    <!-- 其他查询 -->
+                    <h6 class="text-info">其他查询</h6>
+                    <a href="/query/credited-persons" class="btn btn-outline-info btn-sm w-100 mb-2">入账人员列表</a>
+                    <a href="/query/caiyou-yikuang" class="btn btn-outline-info btn-sm w-100 mb-2">采油一矿作业项目</a>
+
+                    <form action="/query/dept-credited" method="get" class="mb-2">
+                        <select name="dname" class="form-select form-select-sm mb-1" required>
+                            <option value="">选择单位(按入账排序)</option>
+                            <option th:each="n : ${deptNames}" th:value="${n}" th:text="${n}"></option>
+                        </select>
+                        <button class="btn btn-outline-info btn-sm w-100">查询</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧结果面板 -->
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0" th:text="${queryTitle != null ? queryTitle : '查询结果'}">查询结果</h5>
+                </div>
+                <div class="card-body">
+                    <!-- 金额汇总结果 -->
+                    <div th:if="${summary}" class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <div class="card text-center border-primary">
+                                <div class="card-body">
+                                    <h6 class="text-muted">总预算金额</h6>
+                                    <h3 class="text-primary" th:text="${summary.totalBudget}"></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center border-success">
+                                <div class="card-body">
+                                    <h6 class="text-muted">总结算金额</h6>
+                                    <h3 class="text-success" th:text="${summary.totalSettlement}"></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center border-warning">
+                                <div class="card-body">
+                                    <h6 class="text-muted">总入账金额</h6>
+                                    <h3 class="text-warning" th:text="${summary.totalCredited}"></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 通用表格结果 -->
+                    <div th:if="${results}" class="table-responsive">
+                        <table class="table table-bordered table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th th:each="col : ${results[0].keySet()}" th:text="${col}"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="row : ${results}">
+                                <td th:each="col : ${row.keySet()}" th:text="${row.get(col)}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-muted" th:if="${results.isEmpty()}">暂无数据</p>
+                    </div>
+
+                    <div th:if="${results == null and summary == null}" class="text-center text-muted py-5">
+                        <h4>请在左侧选择查询条件</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
